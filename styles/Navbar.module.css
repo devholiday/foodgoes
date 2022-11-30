@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cart {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.auth {
+  display: inline-block;
+}
+
+.search input {
+  display: block;
+  margin: 12px auto 18px;
+  width: 250px;
+  border: 1px solid transparent;
+  padding: 5px 13px;
+  height: 35px;
+  border-radius: 16px;
+  background: #efeeed;
+  font-size: 16px;
+  outline: none;
+}
+.search input:focus {
+  border-color: #d2d0cc;
+}
