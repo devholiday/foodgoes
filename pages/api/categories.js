@@ -4,9 +4,8 @@ export default async function handler(req, res) {
   try {    
     const categories = []; 
     
-    const snapshot = await db.collection('categories').get();
+    const snapshot = await db.collection('categories').where('enabled', '==', true).orderBy('sort', 'asc').limit(25).get();
     snapshot.forEach((doc) => {
-      console.log(doc.id, '=>', doc.data());
       categories.push({
         id: doc.id,
         ...doc.data()
