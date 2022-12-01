@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import Sidebar from '../components/sidebar'
 import Catalog from '../components/catalog';
 
-export default function Home({categories}) {
+export default function Home({categories, products}) {
   return (
     <>
       <Sidebar categories={categories} />
@@ -14,16 +14,29 @@ export default function Home({categories}) {
             <div>Minus 30% on the first order</div>
         </div>  
 
-        <div className='catalog'><Catalog /></div>
+        <Catalog products={products} />
       </div>
     </>
   )
 }
 
-export async function getServerSideProps() {
+const getCategories = async () => {
   const res = await fetch(`http://localhost:3000/api/categories`);
   const categories = await res.json();
 
-  return { props: { categories } };
-}
+  return categories;
+};
 
+const getProducts = async () => {
+  const res = await fetch(`http://localhost:3000/api/products`);
+  const products = await res.json();
+
+  return products;
+};
+
+export async function getServerSideProps() {
+  const categories = await getCategories();
+  const products = await getProducts();
+
+  return { props: { categories, products } };
+}
