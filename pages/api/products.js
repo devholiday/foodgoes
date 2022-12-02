@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     
     const snapshot = await db.collection('products').where('enabled', '==', true).orderBy('sort', 'asc').limit(25).get();
     snapshot.forEach((doc) => {
-      const {images, title} = doc.data();
+      const {images} = doc.data();
 
       products.push({
         id: doc.id,
@@ -17,6 +17,6 @@ export default async function handler(req, res) {
   
     res.status(200).json(products);
   } catch(e) {
-    console.log(e);
+    res.status(200).json(null);
   }
 }

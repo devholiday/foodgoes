@@ -4,8 +4,3 @@
   width: 820px;
   display: block;
 }
-
-.wrapper {
-  grid-template: "menu main" auto/minmax(220px,auto) minmax(600px,auto);
-  display: grid;
-}

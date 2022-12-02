@@ -1,13 +1,9 @@
-import styles from '../styles/Product.module.css'
+import styles from '../styles/ProductCard.module.css'
 
 import Link from 'next/link';
-import Button from './button'
+import BuyButton from './buy-button';
 
 export default function Product({product: p}) {
-    const buy = () => {
-        console.log('buy');
-    };
-
     return (
         <div className={styles.product}>
             <Link href={'/product/' + p.id} className={styles.link}></Link>
@@ -33,9 +29,7 @@ export default function Product({product: p}) {
                     {p.description.en && <p>{p.description.en}</p>}
                 </div>
                 <div>
-                    <div className={styles.buyBtn}  style={{padding: '0 8px 8px'}}>
-                        <div><Button onClick={() => buy()}>Buy</Button></div>
-                    </div>
+                    <BuyButton disabled={!p.quantity} />
                 </div>
             </div>
         </div>

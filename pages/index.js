@@ -5,7 +5,7 @@ import Catalog from '../components/catalog';
 
 export default function Home({categories, products}) {
   return (
-    <>
+    <div className={styles.wrapper}>
       <Sidebar categories={categories} />
 
       <div className={styles.main}>
@@ -16,7 +16,7 @@ export default function Home({categories, products}) {
 
         <Catalog products={products} />
       </div>
-    </>
+    </div>
   )
 }
 
