@@ -8,6 +8,23 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { useEffect, useState } from 'react';
 
+import localFont from '@next/font/local';
+
+const roboto = localFont({
+  src: [
+    {
+      path: '../fonts/roboto/Roboto-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/roboto/Roboto-Medium.ttf',
+      weight: '500',
+      style: 'normal',
+    },
+  ]
+});
+
 function MyApp({ Component, pageProps }) {
   const [isAuth, setAuth] = useState(null);
 
@@ -31,11 +48,13 @@ function MyApp({ Component, pageProps }) {
       setAuth(!!user);
     });
   }, []);
-
+  
   return (
-    <Layout isAuth={isAuth}>
-      <Component {...pageProps} />
-    </Layout>
+    <main className={roboto.className}>
+      <Layout isAuth={isAuth}>
+        <Component {...pageProps} />
+      </Layout>
+    </main>
   );
 }
 

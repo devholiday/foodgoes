@@ -5,10 +5,7 @@
   display: block;
 }
 
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+.wrapper {
+  grid-template: "menu main" auto/minmax(220px,auto) minmax(600px,auto);
+  display: grid;
 }

@@ -8,7 +8,7 @@ export default function Home({categories, products}) {
     <>
       <Sidebar categories={categories} />
 
-      <div className="container">
+      <div className={styles.main}>
         <div className='alert'>
             <div className='icon'></div>
             <div>Minus 30% on the first order</div>
@@ -21,14 +21,14 @@ export default function Home({categories, products}) {
 }
 
 const getCategories = async () => {
-  const res = await fetch(`http://localhost:3000/api/categories`);
+  const res = await fetch(`${process.env.DOMAIN}/api/categories`);
   const categories = await res.json();
 
   return categories;
 };
 
 const getProducts = async () => {
-  const res = await fetch(`http://localhost:3000/api/products`);
+  const res = await fetch(`${process.env.DOMAIN}/api/products`);
   const products = await res.json();
 
   return products;
