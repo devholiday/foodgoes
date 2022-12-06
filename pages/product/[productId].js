@@ -8,9 +8,6 @@ const Product = ({product}) => {
   const router = useRouter()
   const { productId } = router.query
 
-  console.log('product');
-  console.log(product);
-
   return (
     <>
       <div>

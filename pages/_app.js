@@ -49,10 +49,12 @@ function MyApp({ Component, pageProps }) {
     });
   }, []);
   
+  const getLayout = Component.getLayout || ((page) => page)
+
   return (
     <main className={roboto.className}>
       <Layout isAuth={isAuth}>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </Layout>
     </main>
   );

@@ -1,11 +1,12 @@
 import Link from 'next/link'
 import styles from '../styles/Sidebar.module.css'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Sidebar({categories}) {
+export default function Sidebar({categories, slug, slug2}) {
     const [links, setLinks] = useState([]);
     const [categoryId, setCategoryId] = useState();
+    const [currentLink, setCurrentLink] = useState();
 
     const showLinks = categoryId => {
         setCategoryId(categoryId);
@@ -13,6 +14,20 @@ export default function Sidebar({categories}) {
         const category = categories.find(c => c.id === categoryId);
         setLinks(category.links ?? []);
     };
+
+    useEffect(() => {
+        let _l;
+        categories.forEach(c => {
+            if (c.links) {
+                c.links.forEach((l) => {
+                    if (l.slug === slug) {
+                        _l = l;
+                    }
+                });
+            }
+        });
+        setCurrentLink(_l);
+    }, []);
 
     const catalog = categories.map((c, i) => (
         <li key={i}>
@@ -30,11 +45,28 @@ export default function Sidebar({categories}) {
             )}
         </li>
     ));
-
+    
     return (
         <div className={styles.sidebar}>
-            <div><h2>Catalog</h2></div>
-            <ul>{catalog}</ul>
+            {!currentLink && (
+                <>
+                    <div><h2>Catalog</h2></div>
+                    <ul>{catalog}</ul>
+                </>
+            )}
+            
+            {currentLink && (
+                <>
+                    <div><h2>{currentLink.title.en}</h2></div>
+                    <ul>{currentLink.links.map((c, i) => (
+                        <li key={i}>
+                            <div>
+                                <Link href={`/category/${slug}/${c.slug}`}>{c.title.en}</Link>
+                            </div>
+                        </li>
+                    ))}</ul>
+                </>
+            )}
         </div>
     )
 }

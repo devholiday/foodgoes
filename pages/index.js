@@ -29,7 +29,7 @@ const getCategories = async () => {
 
 const getProducts = async () => {
   const res = await fetch(`${process.env.DOMAIN}/api/products`);
-  const products = await res.json();
+  const {products} = await res.json();
 
   return products;
 };

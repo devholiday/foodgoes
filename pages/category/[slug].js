@@ -1,37 +1,46 @@
-import { useRouter } from 'next/router'
+import NestedLayoutCategory from '../../components/nested-layout-category'
 import Catalog from '../../components/catalog'
 
 const Category = ({linksWithProducts}) => {
-  const router = useRouter()
-  const { slug } = router.query;
-
-  console.log(linksWithProducts)
-
   return (
     <>
-      {linksWithProducts.map((linkWithProducts, i) => (
-        <div key={i}>
-          <h3>{linkWithProducts.title.en}</h3>
-          <div><Catalog products={linkWithProducts.products}/></div>
-        </div>
-      ))}
+       {linksWithProducts.map((linkWithProducts, i) => (
+            <div key={i}>
+              <h3>{linkWithProducts.title.en}</h3>
+
+              <div><Catalog products={linkWithProducts.products}/></div>
+            </div>
+          ))}
     </>
   );
 }
 
-const getLinksWithProducts = async slug => {
+const getProducts = async slug => {
   const res = await fetch(`${process.env.DOMAIN}/api/links-with-products?slug=${slug}`);
   const linksWithProducts = await res.json();
 
   return linksWithProducts;
 };
+const getCategories = async () => {
+  const res = await fetch(`${process.env.DOMAIN}/api/categories`);
+  const categories = await res.json();
+
+  return categories;
+};
 
 export async function getServerSideProps(context) {
   const {slug} = context.params;
 
-  const linksWithProducts = await getLinksWithProducts(slug);
+  const categories = await getCategories();
+  const linksWithProducts = await getProducts(slug);
 
-  return { props: { linksWithProducts } };
+  return { props: { categories, linksWithProducts, slug } };
 }
 
 export default Category
+
+Category.getLayout = function getLayout(page) {
+  return (
+    <NestedLayoutCategory categories={page.props.categories} slug={page.props.slug}>{page}</NestedLayoutCategory>
+  )
+}

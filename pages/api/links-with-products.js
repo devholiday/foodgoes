@@ -31,16 +31,17 @@ export default async function handler(req, res) {
           const {title, productIds} = collectionDoc.data();
 
           const products = [];
-          for (let productId of productIds) {
-            const productDoc = await db.collection('products').doc(productId).get();
-            const productData = productDoc.data();
-
+          const snapshot = await db.collection('products')
+          .where('__name__', 'in', productIds)
+          .where('enabled', '==', true)
+          .limit(25).get();
+          snapshot.forEach(doc => {
             products.push({
-              id: productDoc.id,
-              ...productData,
-              image: productData.images.length > 0 ? productData.images[0] : null
+              id: doc.id,
+              ...doc.data(),
+              image: doc.data().images.length > 0 ? doc.data().images[0] : null
             })
-          }
+          });
 
           linksWithProducts.push({
             title: link.title,
@@ -58,7 +59,6 @@ export default async function handler(req, res) {
 
     res.status(200).json(linksWithProducts);
   } catch(e) {
-    console.log(e)
     res.status(200).json(null);
   }
 }

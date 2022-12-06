@@ -1,0 +1,8 @@
+.wrapper {
+  grid-template: "menu main" auto/minmax(220px,auto) minmax(600px,auto);
+  display: grid;
+}
+
+.main {
+  grid-area: main;
+}
