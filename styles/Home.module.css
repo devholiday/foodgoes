@@ -1,5 +1,5 @@
 .wrapper {
-  grid-template: "menu main" auto/minmax(220px,auto) minmax(600px,auto);
+  grid-template: "menu main" auto/minmax(270px,auto) minmax(690px,auto);
   display: grid;
 }
 

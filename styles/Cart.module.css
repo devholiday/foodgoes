@@ -1,0 +1,33 @@
+.container {
+    display: grid;
+    grid-template: "products totals" auto/minmax(560px,auto) minmax(400px,auto);
+}
+
+.products {
+    grid-area: products;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.totals {
+    grid-area: totals;
+    margin-left: 72px;
+    display: flex;
+    flex-direction: column;
+}
+
+.subheading {
+    font-size: 28px;
+    font-weight: 700;
+}
+.deliveryInfo {
+    font-size: 16px;
+    color: #9e9b98;
+}
+
+.top {
+    border-bottom: 1px solid #e8e7e6;
+    color: #21201f;
+    margin-bottom: 8px;
+    padding: 19px 0 22px;
+}

@@ -27,7 +27,7 @@ const Product = ({product}) => {
                   </>
               ) : <span className={styles.price}>&#8362;{product.price}</span>}
           </div>
-          <div><BuyButton disabled={!product.quantity} /></div>
+          <div><BuyButton disabled={!product.quantity} productId={productId} /></div>
           <div>
             <div>
               <span>О товаре</span>

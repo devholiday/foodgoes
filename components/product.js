@@ -29,7 +29,7 @@ export default function Product({product: p}) {
                     {p.description.en && <p>{p.description.en}</p>}
                 </div>
                 <div>
-                    <BuyButton disabled={!p.quantity} />
+                    <BuyButton productId={p.id} disabled={!p.quantity} />
                 </div>
             </div>
         </div>
