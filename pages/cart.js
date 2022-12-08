@@ -4,7 +4,9 @@ import Button from '../components/button'
 import ProductCart from '../components/product-cart'
 import Link from 'next/link'
 
-import CartContext from '../contexts/cart-context'
+import CartContext from '../context/cart-context'
+import { LocaleContext } from '../context/locale-context'
+
 import {useState, useEffect, useContext} from 'react'
 import { getFirestore, collection, query, where, getDocs, doc, deleteDoc, addDoc, serverTimestamp} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -14,6 +16,7 @@ export default function Cart() {
   const [totals, setTotals] = useState(0);
 
   const cartFromContext = useContext(CartContext);
+  const {i18n} = useContext(LocaleContext);
 
   const shippingtotal = 25;
 
@@ -93,12 +96,12 @@ export default function Cart() {
         </Head>
         <div className='infoBlock'>
           <div>
-            <h1 className='heading'>Корзина</h1>
+            <h1 className='heading'>{i18n.cartTitlePage}</h1>
           </div>
         </div>
         <div className={styles.container}>
-          <h2>В вашей корзине пока пусто</h2>
-          <p>Тут появятся товары, которые вы закажете</p>
+          <h2>{i18n.cartTitle}</h2>
+          <p>{i18n.cartTextEmpty}</p>
         </div>
       </>
     );
@@ -110,14 +113,14 @@ export default function Cart() {
         <title>FoodGoes - Cart</title>
       </Head>
       <div className='breadcrumbs'>
-        <Link href="/">Вернуться в каталог</Link>
+        <Link href="/">{i18n.btnBackToCatalog}</Link>
       </div>
       <div className='infoBlock'>
         <div>
-          <h1 className='heading'>Корзина</h1>
+          <h1 className='heading'>{i18n.cartTitlePage}</h1>
         </div>
         <div>
-          <Button onClick={() => clearCart()}>Очистить корзину</Button>
+          <Button onClick={() => clearCart()}>{i18n.btnClearCart}</Button>
         </div>
       </div>
       <div className={styles.container}>
@@ -127,27 +130,27 @@ export default function Cart() {
         <div className={styles.totals}>
           <div>
             <div className={styles.top}>
-              <h2 className={styles.subheading}>Итого</h2>
-              <span className={styles.deliveryInfo}>Доставка 25–35 мин</span>
+              <h2 className={styles.subheading}>{i18n.total}</h2>
+              <span className={styles.deliveryInfo}>{i18n.shippingTime.replace('[time]', '25-35')}</span>
             </div>
             <table>
               <tbody>
                 <tr>
-                  <th>Товары</th>
+                  <th>{i18n.products}</th>
                   <td>&#8362; {totals}</td>
                 </tr>
                 <tr>
-                  <th>Доставка</th>
-                  <td>&#8362; shippingtotal</td>
+                  <th>{i18n.shipping}</th>
+                  <td>&#8362; {shippingtotal}</td>
                 </tr>
                 <tr>
-                  <th>К оплате</th>
+                  <th>{i18n.payment}</th>
                   <td>&#8362; {totals + shippingtotal}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <Button onClick={() => order()}>Заказать</Button>
+          <Button onClick={() => order()}>{i18n.order}</Button>
         </div>
       </div>
     </>

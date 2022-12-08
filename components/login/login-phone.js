@@ -1,8 +1,12 @@
-import {useEffect} from "react";
+import {useEffect, useContext} from "react";
 import {getAuth, RecaptchaVerifier, signInWithPhoneNumber} from "firebase/auth";
 import {useForm} from "react-hook-form";
 
+import { LocaleContext } from '../../context/locale-context'
+
 export default function LoginPhone({setStep}) {
+    const {i18n} = useContext(LocaleContext);
+
     const auth = getAuth();
     auth.languageCode = 'en';
 
@@ -44,14 +48,14 @@ export default function LoginPhone({setStep}) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-block">
-                <label>Номер телефона</label>
+                <label>{i18n.phone}</label>
                 <div className="input-box">
                     <span className="prefix">+972</span>
                     <input type='tel' {...register("phoneNumber", { required: true })} />
                 </div>
             </div>
             <div id="recaptcha-container"></div>
-            <input  type="submit" value="Next" />
+            <input  type="submit" value={i18n.next} />
         </form>
     )
 }

@@ -1,12 +1,17 @@
 import NestedLayoutCategory from '../../components/nested-layout-category'
 import Catalog from '../../components/catalog'
 
+import { useContext } from 'react';
+import { LocaleContext } from '../../context/locale-context'
+
 const Category = ({linksWithProducts}) => {
+  const {locale} = useContext(LocaleContext);
+
   return (
     <>
        {linksWithProducts.map((linkWithProducts, i) => (
             <div key={i}>
-              <h3>{linkWithProducts.title.en}</h3>
+              <h3>{linkWithProducts.title[locale]}</h3>
 
               <div><Catalog products={linkWithProducts.products}/></div>
             </div>

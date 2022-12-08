@@ -1,17 +1,20 @@
+import {useContext} from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/Product.module.css'
 
+import { LocaleContext } from '../../context/locale-context'
 import BuyButton from '../../components/buy-button';
 
 const Product = ({product}) => {
+  const {locale, i18n} = useContext(LocaleContext);
   const router = useRouter()
   const { productId } = router.query
 
   return (
     <>
       <div>
-        <h1 className={styles.title}>{product.title.en}</h1>
+        <h1 className={styles.title}>{product.title[locale]}</h1>
       </div>
       <div className={styles.container}>
         <div><img src={product.image} /></div>
@@ -30,11 +33,11 @@ const Product = ({product}) => {
           <div><BuyButton disabled={!product.quantity} productId={productId} /></div>
           <div>
             <div>
-              <span>О товаре</span>
-              <p>{product.description.en}</p>
+              <span>{i18n.aboutProduct}</span>
+              <p>{product.description[locale]}</p>
             </div>
             <div>
-              <span>Бренд</span>
+              <span>{i18n.vendor}</span>
               <p>{product.vendor}</p>
             </div>
           </div>

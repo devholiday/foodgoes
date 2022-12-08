@@ -11,7 +11,8 @@ import { useEffect, useState} from 'react';
 
 import localFont from '@next/font/local';
 
-import CartContext from '../contexts/cart-context'
+import CartContext from '../context/cart-context'
+import {LocaleContext, locales} from '../context/locale-context';
 
 const roboto = localFont({
   src: [
@@ -36,6 +37,7 @@ const roboto = localFont({
 function MyApp({ Component, pageProps }) {
   const [isAuth, setAuth] = useState(null);
   const [cart, setCart] = useState(null);
+  const [locale, setLocale] = useState('en');
 
   useEffect(() => {
     const firebaseConfig = {
@@ -93,15 +95,19 @@ function MyApp({ Component, pageProps }) {
     setCart(null);
   };
 
-  const getLayout = Component.getLayout || ((page) => page)
+  const changeLocale = l => locales[l];
+
+  const getLayout = Component.getLayout || ((page) => page);
 
   return (
     <main className={roboto.className}>
-      <CartContext.Provider value={{cart, createCart, updateProductsCart, deleteCart}}>
-        <Layout isAuth={isAuth}>
-          {getLayout(<Component {...pageProps} />)}
-        </Layout>
-      </CartContext.Provider>
+      <LocaleContext.Provider value={{i18n: changeLocale(locale), setLocale, locale}}>
+        <CartContext.Provider value={{cart, createCart, updateProductsCart, deleteCart}}>
+          <Layout isAuth={isAuth}>
+            {getLayout(<Component {...pageProps} />)}
+          </Layout>
+        </CartContext.Provider>
+      </LocaleContext.Provider>
     </main>
   );
 }

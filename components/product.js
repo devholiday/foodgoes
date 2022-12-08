@@ -1,9 +1,15 @@
+import {useContext} from 'react'
+
 import styles from '../styles/ProductCard.module.css'
 
 import Link from 'next/link';
 import BuyButton from './buy-button';
 
+import { LocaleContext } from '../context/locale-context'
+
 export default function Product({product: p}) {
+    const {locale} = useContext(LocaleContext);
+
     return (
         <div className={styles.product}>
             <Link href={'/product/' + p.id} className={styles.link}></Link>
@@ -25,8 +31,7 @@ export default function Product({product: p}) {
                         ) : <span className={styles.price}>&#8362;{p.price}</span>}
                     </div>
                     
-                    <h3 className={styles.title}>{p.title.en}</h3>
-                    {p.description.en && <p>{p.description.en}</p>}
+                    <h3 className={styles.title}>{p.title[locale]}</h3>
                 </div>
                 <div>
                     <BuyButton productId={p.id} disabled={!p.quantity} />

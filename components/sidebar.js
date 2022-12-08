@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import styles from '../styles/Sidebar.module.css'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { LocaleContext } from '../context/locale-context'
 
 export default function Sidebar({categories, slug, slug2}) {
     const [links, setLinks] = useState([]);
     const [categoryId, setCategoryId] = useState();
     const [currentLink, setCurrentLink] = useState();
+    
+    const {locale, i18n} = useContext(LocaleContext);
 
     const showLinks = categoryId => {
         setCategoryId(categoryId);
@@ -31,13 +34,13 @@ export default function Sidebar({categories, slug, slug2}) {
 
     const catalog = categories.map((c, i) => (
         <li key={i}>
-            <div onClick={() => showLinks(c.id)}>{c.title.en}</div>
+            <div onClick={() => showLinks(c.id)}>{c.title[locale]}</div>
             {categoryId === c.id && (
                 <div className="links">
                 {links.length > 0 && (
                     <ul>
                         {links.map((l, j) => (
-                            <Link key={j} href={`/category/${l.slug}`}>{l.title.en}</Link>
+                            <Link key={j} href={`/category/${l.slug}`}>{l.title[locale]}</Link>
                         ))}
                     </ul>
                 )}
@@ -50,18 +53,18 @@ export default function Sidebar({categories, slug, slug2}) {
         <div className={styles.sidebar}>
             {!currentLink && (
                 <>
-                    <div><h2>Catalog</h2></div>
+                    <div><h2>{i18n.catalog}</h2></div>
                     <ul>{catalog}</ul>
                 </>
             )}
             
             {currentLink && (
                 <>
-                    <div><h2>{currentLink.title.en}</h2></div>
+                    <div><h2>{currentLink.title[locale]}</h2></div>
                     <ul>{currentLink.links.map((c, i) => (
                         <li key={i}>
                             <div>
-                                <Link href={`/category/${slug}/${c.slug}`}>{c.title.en}</Link>
+                                <Link href={`/category/${slug}/${c.slug}`}>{c.title[locale]}</Link>
                             </div>
                         </li>
                     ))}</ul>
