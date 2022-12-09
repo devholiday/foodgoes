@@ -1,15 +1,18 @@
 import Link from 'next/link'
 import styles from '../styles/Sidebar.module.css'
 
-import { useEffect, useState, useContext } from 'react';
-import { LocaleContext } from '../context/locale-context'
+import { useEffect, useState } from 'react';
+import {useRouter} from 'next/router'
+
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function Sidebar({categories, slug, slug2}) {
     const [links, setLinks] = useState([]);
     const [categoryId, setCategoryId] = useState();
     const [currentLink, setCurrentLink] = useState();
     
-    const {locale, i18n} = useContext(LocaleContext);
+    const { locale } = useRouter();
+    const { translate } = useTranslation();
 
     const showLinks = categoryId => {
         setCategoryId(categoryId);
@@ -53,7 +56,7 @@ export default function Sidebar({categories, slug, slug2}) {
         <div className={styles.sidebar}>
             {!currentLink && (
                 <>
-                    <div><h2>{i18n.catalog}</h2></div>
+                    <div><h2>{translate('catalog')}</h2></div>
                     <ul>{catalog}</ul>
                 </>
             )}

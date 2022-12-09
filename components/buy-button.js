@@ -7,11 +7,11 @@ import Button from './button'
 import { useContext, useEffect } from "react";
 
 import CartContext from '../context/cart-context'
-import { LocaleContext } from '../context/locale-context'
+import { useTranslation } from '../hooks/useTranslation';
 
 export default function BuyButton({disabled, productId}) {
     const cartFromContext = useContext(CartContext);
-    const {i18n} = useContext(LocaleContext);
+    const { translate } = useTranslation();
 
     useEffect(() => {
         if (!cartFromContext || !cartFromContext.cart) return;
@@ -119,7 +119,7 @@ export default function BuyButton({disabled, productId}) {
             {inCart === null && (
                 (
                     <div className={styles.buyBtn}>
-                        <div><Button onClick={() => buy(productId)} disabled={disabled}>{i18n.buy}</Button></div>
+                        <div><Button onClick={() => buy(productId)} disabled={disabled}>{translate('buy')}</Button></div>
                     </div>
                 )
             )}

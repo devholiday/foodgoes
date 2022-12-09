@@ -21,5 +21,7 @@
   "payment": "Payment",
   "order": "Order",
   "btnClearCart": "Clear cart",
-  "btnBackToCatalog": "Back to catalog"
+  "btnBackToCatalog": "Back to catalog",
+  "emptySearch": "No results found for «[searchPhrase]»",
+  "notEmptySearch": "[searchCount] items found for «[searchPhrase]»"
 }

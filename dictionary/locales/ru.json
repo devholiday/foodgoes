@@ -21,5 +21,7 @@
   "payment": "К оплате",
   "order": "Заказать",
   "btnClearCart": "Очистить корзину",
-  "btnBackToCatalog": "Вернуться в каталог"
+  "btnBackToCatalog": "Вернуться в каталог",
+  "emptySearch": "По запросу «[searchPhrase]» ничего не найдено",
+  "notEmptySearch": "По запросу «[searchPhrase]» найдено [searchCount] товаров"
 }

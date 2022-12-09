@@ -1,15 +1,16 @@
-import {useContext} from 'react'
 import { useRouter } from 'next/router'
 
 import styles from '../../styles/Product.module.css'
 
-import { LocaleContext } from '../../context/locale-context'
+import { useTranslation } from '../../hooks/useTranslation';
+
 import BuyButton from '../../components/buy-button';
 
 const Product = ({product}) => {
-  const {locale, i18n} = useContext(LocaleContext);
-  const router = useRouter()
-  const { productId } = router.query
+  const { translate } = useTranslation();
+  const {query, locale} = useRouter();
+
+  const { productId } = query;
 
   return (
     <>
@@ -33,11 +34,11 @@ const Product = ({product}) => {
           <div><BuyButton disabled={!product.quantity} productId={productId} /></div>
           <div>
             <div>
-              <span>{i18n.aboutProduct}</span>
+              <span>{translate('aboutProduct')}</span>
               <p>{product.description[locale]}</p>
             </div>
             <div>
-              <span>{i18n.vendor}</span>
+              <span>{translate('vendor')}</span>
               <p>{product.vendor}</p>
             </div>
           </div>

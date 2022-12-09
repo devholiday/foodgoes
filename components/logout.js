@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { getAuth, signOut } from "firebase/auth";
-import { LocaleContext } from "../context/locale-context";
+import { useTranslation } from '../hooks/useTranslation';
 import Button from "./button";
 
 export default function Logout() {
-    const {i18n} = useContext(LocaleContext);
+    const { translate } = useTranslation();
 
     const logout = () => {
         const auth = getAuth();
@@ -16,5 +15,5 @@ export default function Logout() {
         });
     };
 
-    return <Button onClick={() => logout()}>{i18n.logout}</Button>;
+    return <Button onClick={() => logout()}>{translate('logout')}</Button>;
 }

@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
 
-import {useState, useCallback, useContext} from 'react'
+import {useState, useCallback} from 'react'
+import { useRouter } from 'next/router';
 
-import { LocaleContext } from '../context/locale-context'
+import { useTranslation } from '../hooks/useTranslation';
 
 import Modal from './modal'
 import Button from './button'
@@ -12,14 +13,51 @@ import Logout from './logout'
 
 export default function Navbar({isAuth}) {
   const [active, setActive] = useState(false);
-  const {i18n, setLocale} = useContext(LocaleContext);
+  const router = useRouter();
+  const { translate } = useTranslation();
 
   const handleChange = useCallback(() => setActive(!active), [active]);
-  const activator = <Button onClick={handleChange}>{i18n.login}</Button>;
+  const activator = <Button onClick={handleChange}>{translate('login')}</Button>;
 
-  const search = q => {
-    console.log(q)
+  const queue = [];
+  const handleKeyUpSearch = event => {
+    try {
+      if (event.keyCode !== 8 && (event.keyCode < 48 || event.keyCode > 220)) {
+        return;
+      }
+
+      queue.forEach(element => clearTimeout(element));
+
+      const timeoutId = setTimeout(async () => {
+        let q = event.target.value;
+        q = q.trim().toLowerCase();
+
+        if (q === '') {
+          return;
+        }
+        if (q.length < 3) {
+          return;
+        }
+        if (q.length > 25) {
+          return;
+        }
+
+        const pathname = '/search';
+
+        if (router.pathname !== pathname) {
+          router.push({pathname, query: {text: q}}, undefined, { locale: router.locale });
+        } else {
+          router.replace({pathname, query: {text: q}}, undefined, { locale: router.locale });
+        }
+      }, 1500);
+
+      queue.push(timeoutId);
+    } catch(e) {
+      return;
+    }
   };
+
+  const goToLocale = locale => router.push(router.asPath, router.asPath, { locale });
 
   return (
     <div className={styles.header}>
@@ -28,18 +66,18 @@ export default function Navbar({isAuth}) {
         </div>
 
         <div className={styles.search}>
-          <input type="text" placeholder={i18n.search} onChange={e => search(e.target.value)} />
+          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
         </div>
 
         <div className={styles.buttons}>
           <div className={styles.langs}>
-            <Button onClick={() => setLocale('en')}>En</Button>
-            <Button onClick={() => setLocale('he')}>He</Button>
-            <Button onClick={() => setLocale('ru')}>Ru</Button>
+            <Button onClick={() => goToLocale('en')}>En</Button>
+            <Button onClick={() => goToLocale('he')}>He</Button>
+            <Button onClick={() => goToLocale('ru')}>Ru</Button>
           </div>
           <div>
             <div className={styles.cart}>
-              <Link className={styles.cartButton} href="/cart">{i18n.cart}</Link>
+              <Link className={styles.cartButton} href="/cart">{translate('cart')}</Link>
             </div>
             
             <div className={styles.auth}>
@@ -47,7 +85,7 @@ export default function Navbar({isAuth}) {
                   activator={activator}
                   open={active}
                   onClose={handleChange}
-                  title={i18n.loginTitle}
+                  title={translate('loginTitle')}
               >
                   <Login onClose={handleChange} />
               </Modal>

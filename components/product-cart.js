@@ -1,13 +1,11 @@
-import {useContext} from 'react'
-
 import styles from '../styles/ProductCart.module.css'
 import Link from 'next/link'
 import BuyButton from './buy-button';
 
-import { LocaleContext } from '../context/locale-context'
+import {useRouter} from 'next/router'
 
 export default function ProductCart({product}) {
-    const {locale} = useContext(LocaleContext);
+    const { locale } = useRouter();
 
     return (
         <div className={styles.product}>

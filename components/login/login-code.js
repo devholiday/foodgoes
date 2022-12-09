@@ -1,13 +1,11 @@
-import { useContext } from "react";
-
 import {doc, setDoc, getFirestore} from "firebase/firestore";
 import {getAdditionalUserInfo } from "firebase/auth";
 import {useForm} from "react-hook-form";
 
-import { LocaleContext } from '../../context/locale-context'
+import { useTranslation } from '../../hooks/useTranslation';
 
 export default function LoginCode({onClose}) {
-    const {i18n} = useContext(LocaleContext);
+    const { translate } = useTranslation();
     const { register, handleSubmit } = useForm();
 
     const onSubmit = async data => {
@@ -36,9 +34,9 @@ export default function LoginCode({onClose}) {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-block">
-                <input type='input' {...register("code", { required: true })} placeholder={i18n.code} />
+                <input type='input' {...register("code", { required: true })} placeholder={translate('code')} />
             </div>
-            <input className="btn-secondary" type="submit" value={i18n.login} />
+            <input className="btn-secondary" type="submit" value={translate('login')} />
         </form>
     );
 }
