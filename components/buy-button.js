@@ -1,10 +1,12 @@
-import {getFirestore, updateDoc, addDoc, collection, doc, serverTimestamp} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+
+import { useContext, useEffect } from "react";
+
+import {firebaseAuth, firebaseDB} from '../utils/init-firebase';
+import {updateDoc, addDoc, collection, doc, serverTimestamp} from "firebase/firestore";
 
 import styles from '../styles/BuyButton.module.css'
 
 import Button from './button'
-import { useContext, useEffect } from "react";
 
 import CartContext from '../context/cart-context'
 import { useTranslation } from '../hooks/useTranslation';
@@ -19,8 +21,7 @@ export default function BuyButton({disabled, productId}) {
     
     const buy = async productId => {
         try {
-            const user = getAuth().currentUser;
-            const db = getFirestore();
+            const user = firebaseAuth.currentUser;
             
             if (user) {
                 const userId = user.uid;    
@@ -30,11 +31,11 @@ export default function BuyButton({disabled, productId}) {
                     const product = cart.products.find(p => p.productId === productId);
                     if (!product) {
                         const products = cart.products.concat({productId, quantity: 1});
-                        await updateDoc(doc(db, "cart", cart.id), {products, updatedAt: serverTimestamp()});
+                        await updateDoc(doc(firebaseDB, "cart", cart.id), {products, updatedAt: serverTimestamp()});
                         updateProductsCart(products);
                     }
                 } else {
-                    const docRef = await addDoc(collection(db, "cart"), {userId, products: [{productId, quantity: 1}], createdAt: serverTimestamp()});
+                    const docRef = await addDoc(collection(firebaseDB, "cart"), {userId, products: [{productId, quantity: 1}], createdAt: serverTimestamp()});
                     if (docRef.id) {
                         createCart({
                             id: docRef.id,
@@ -54,9 +55,7 @@ export default function BuyButton({disabled, productId}) {
 
     const counter = async (productId, action=null) => {
         try {
-            const user = getAuth().currentUser;
-            const db = getFirestore();
-            
+            const user = firebaseAuth.currentUser;
             if (user) {
                 const {cart, updateProductsCart} = cartFromContext;
                 if (!cart) {
@@ -89,7 +88,7 @@ export default function BuyButton({disabled, productId}) {
                 }
 
                 cart.updatedAt = serverTimestamp();
-                await updateDoc(doc(db, "cart", cart.id), cart);
+                await updateDoc(doc(firebaseDB, "cart", cart.id), cart);
                 updateProductsCart(cart.products);
             } else {
                 console.log('Чтобы добавить товар в корзину авторизуйтесь')

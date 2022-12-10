@@ -23,5 +23,9 @@
   "btnClearCart": "Очистить корзину",
   "btnBackToCatalog": "Вернуться в каталог",
   "emptySearch": "По запросу «[searchPhrase]» ничего не найдено",
-  "notEmptySearch": "По запросу «[searchPhrase]» найдено [searchCount] товаров"
+  "notEmptySearch": "По запросу «[searchPhrase]» найдено [searchCount] товаров",
+  "menuAccount": "Аккаунт",
+  "menuOrders": "Заказы",
+  "menuBilling": "Платежи",
+  "ordersTitlePage": "Заказы"
 }

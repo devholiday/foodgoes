@@ -1,18 +1,22 @@
-import Link from 'next/link'
-import styles from '../styles/Navbar.module.css'
-
 import {useState, useCallback} from 'react'
+
 import { useRouter } from 'next/router';
+import Link from 'next/link'
+
+import styles from '../styles/Navbar.module.css'
 
 import { useTranslation } from '../hooks/useTranslation';
 
 import Modal from './modal'
 import Button from './button'
 import Login from './login/login'
-import Logout from './logout'
+
+import {firebaseAuth} from '../utils/init-firebase';
 
 export default function Navbar({isAuth}) {
   const [active, setActive] = useState(false);
+  const [accountMenu, setAccountMenu] = useState(false);
+
   const router = useRouter();
   const { translate } = useTranslation();
 
@@ -59,6 +63,14 @@ export default function Navbar({isAuth}) {
 
   const goToLocale = locale => router.push(router.asPath, router.asPath, { locale });
 
+  const logout = () => {
+      signOut(firebaseAuth).then(() => {
+          // Sign-out successful.
+      }).catch((error) => {
+          // An error happened.
+      });
+  };
+
   return (
     <div className={styles.header}>
        <div>
@@ -75,11 +87,27 @@ export default function Navbar({isAuth}) {
             <Button onClick={() => goToLocale('he')}>He</Button>
             <Button onClick={() => goToLocale('ru')}>Ru</Button>
           </div>
+
+          {isAuth && (
+            <div className={styles.account}>
+              <div onClick={() => setAccountMenu(!accountMenu)}>{translate('menuAccount')}</div>
+              {accountMenu && (
+                <div className={styles.accountMenu}>
+                  <ul>
+                    <li><Link href={'/account/orders'}>{translate('menuOrders')}</Link></li>
+                    <li><Link href={'/account/billing'}>{translate('menuBilling')}</Link></li>
+                    <li><Button onClick={() => logout()}>{translate('logout')}</Button></li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
           <div>
             <div className={styles.cart}>
               <Link className={styles.cartButton} href="/cart">{translate('cart')}</Link>
             </div>
-            
+
             <div className={styles.auth}>
               {isAuth === false && <Modal
                   activator={activator}
@@ -90,7 +118,6 @@ export default function Navbar({isAuth}) {
                   <Login onClose={handleChange} />
               </Modal>
               }
-              {isAuth === true && <Logout />}
             </div>
           </div>
         </div>

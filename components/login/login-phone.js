@@ -1,5 +1,7 @@
-import {useEffect, useContext} from "react";
-import {getAuth, RecaptchaVerifier, signInWithPhoneNumber} from "firebase/auth";
+import {useEffect} from "react";
+
+import {firebaseAuth} from '../../utils/init-firebase';
+import {RecaptchaVerifier, signInWithPhoneNumber} from "firebase/auth";
 import {useForm} from "react-hook-form";
 
 import { useTranslation } from '../../hooks/useTranslation';
@@ -7,13 +9,12 @@ import { useTranslation } from '../../hooks/useTranslation';
 export default function LoginPhone({setStep}) {
     const { translate } = useTranslation();
 
-    const auth = getAuth();
-    auth.languageCode = 'en';
+    firebaseAuth.languageCode = 'en';
 
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
-        window.applicationVerifier = new RecaptchaVerifier('recaptcha-container', {'size': 'invisible'}, auth);
+        window.applicationVerifier = new RecaptchaVerifier('recaptcha-container', {'size': 'invisible'}, firebaseAuth);
     }, []);
 
     const normalizePhoneNumber = number => {
@@ -30,7 +31,7 @@ export default function LoginPhone({setStep}) {
                 return;
             }
     
-            signInWithPhoneNumber(auth, phoneNumber, window.applicationVerifier)
+            signInWithPhoneNumber(firebaseAuth, phoneNumber, window.applicationVerifier)
                 .then((confirmationResult) => {
                     // SMS sent. Prompt user to type the code from the message, then sign the
                     // user in with confirmationResult.confirm(code).

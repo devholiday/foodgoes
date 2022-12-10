@@ -2,5 +2,11 @@
     grid-column-gap: 8px;
     grid-row-gap: 8px;
     display: grid;
+}
+
+.card {
     grid-template-columns: repeat(auto-fill,minmax(214px,1fr));
+}
+.list {
+    grid-template-columns: 1fr;
 }

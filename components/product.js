@@ -4,7 +4,7 @@ import Link from 'next/link';
 import BuyButton from './buy-button';
 import { useRouter } from 'next/router';
 
-export default function Product({product: p}) {
+export default function Product({product: p, disabledBuy}) {
     const { locale } = useRouter();
 
     return (
@@ -30,9 +30,11 @@ export default function Product({product: p}) {
                     
                     <h3 className={styles.title}>{p.title[locale]}</h3>
                 </div>
-                <div>
-                    <BuyButton productId={p.id} disabled={!p.quantity} />
-                </div>
+                {!disabledBuy && (
+                    <div>
+                        <BuyButton productId={p.id} disabled={!p.quantity} />
+                    </div>
+                )}
             </div>
         </div>
     );

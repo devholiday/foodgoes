@@ -1,4 +1,6 @@
-import {doc, setDoc, getFirestore} from "firebase/firestore";
+import {firebaseDB} from '../../utils/init-firebase';
+
+import {doc, setDoc} from "firebase/firestore";
 import {getAdditionalUserInfo } from "firebase/auth";
 import {useForm} from "react-hook-form";
 
@@ -17,8 +19,7 @@ export default function LoginCode({onClose}) {
 
                 const {isNewUser} = getAdditionalUserInfo(result);
                 if (isNewUser) {
-                    const db = getFirestore();
-                    await setDoc(doc(db, "users", user.uid), {id: user.uid, phoneNumber: user.phoneNumber, enabled: true});
+                    await setDoc(doc(firebaseDB, "users", user.uid), {id: user.uid, phoneNumber: user.phoneNumber, enabled: true});
                 }
 
                 onClose();

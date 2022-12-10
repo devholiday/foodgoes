@@ -1,16 +1,18 @@
+import {useState, useEffect, useContext} from 'react'
+
+import Link from 'next/link'
 import Head from 'next/head'
+
 import styles from '../styles/Cart.module.css'
 import Button from '../components/button'
 import ProductCart from '../components/product-cart'
-import Link from 'next/link'
 
 import CartContext from '../context/cart-context'
 
 import { useTranslation } from '../hooks/useTranslation';
 
-import {useState, useEffect, useContext} from 'react'
-import { getFirestore, collection, query, where, getDocs, doc, deleteDoc, addDoc, serverTimestamp} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import {firebaseAuth, firebaseDB} from '../utils/init-firebase';
+import { collection, query, where, getDocs, doc, deleteDoc, addDoc, serverTimestamp} from "firebase/firestore";
 
 export default function Cart() {
   const [products, setProducts] = useState([]);
@@ -33,16 +35,16 @@ export default function Cart() {
         }
 
         const products = [];
-        const db = getFirestore();
 
-        const querySnapshot = await getDocs(query(collection(db, "products"), 
+        const querySnapshot = await getDocs(query(collection(firebaseDB, "products"), 
         where("__name__", "in", productIds), 
         where("enabled", "==", true)));
         querySnapshot.forEach((doc) => {
           products.push({
             id: doc.id,
             ...doc.data(),
-            image: doc.data().images.length > 0 ? doc.data().images[0] : null
+            image: doc.data().images.length > 0 ? doc.data().images[0] : null,
+            quantity: cartFromContext.cart.products.find(p => p.productId === doc.id).quantity,
           });
         });
   
@@ -63,21 +65,18 @@ export default function Cart() {
   }, [cartFromContext]);
 
   const clearCart = async () => {
-    const db = getFirestore();
-
     const {cart: {id}, deleteCart} = cartFromContext;
-    await deleteDoc(doc(db, "cart", id));
+    await deleteDoc(doc(firebaseDB, "cart", id));
     deleteCart();
     setProducts([]);
   };
 
   const order = async () => {
-    const user = getAuth().currentUser;
+    const user = firebaseAuth.currentUser;
     if (user) {
       const userId = user.uid;
 
-      const db = getFirestore();
-      const docRef = await addDoc(collection(db, "orders"), {
+      const docRef = await addDoc(collection(firebaseDB, "orders"), {
         userId, products, createdAt: serverTimestamp(), status: 'pending', 
         shippingtotal, productsTotal: totals, total: totals+shippingtotal
       });
