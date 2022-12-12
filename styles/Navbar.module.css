@@ -13,7 +13,12 @@
 
 .cart {
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 7px;
+}
+
+.globe {
+  display: inline-block;
+  margin-right: 7px;
 }
 
 .auth {
@@ -22,11 +27,10 @@
 
 .search input {
   display: block;
-  margin: 12px auto 18px;
-  width: 250px;
+  width: 320px;
   border: 1px solid transparent;
   padding: 5px 13px;
-  height: 35px;
+  height: 48px;
   border-radius: 16px;
   background: #efeeed;
   font-size: 16px;
@@ -51,15 +55,28 @@
 
 .accountMenu {
   position: absolute;
-  background: #ccc;
+  background: #ffffff;
   border-radius: 16px;
   padding: 0;
   margin: 0;
-  left: 0;
   right: 0;
-  width: 120px;
+  width: 160px;
+
+  border-radius: 32px;
+  box-shadow: 0 8px 20px hsl(40deg 3% 45% / 20%);
+  padding-bottom: 24px;
+  padding-top: 24px;
 }
 
 .accountMenu ul {
   list-style: none;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.cartButton svg {
+  margin-right: 9px;
 }

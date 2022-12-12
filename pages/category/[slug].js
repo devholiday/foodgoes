@@ -3,14 +3,16 @@ import Catalog from '../../components/catalog'
 
 import {useRouter} from 'next/router'
 
+import styles from '../../styles/Category.module.css'
+
 const Category = ({linksWithProducts}) => {
   const { locale } = useRouter();
 
   return (
     <>
-       {linksWithProducts.map((linkWithProducts, i) => (
-            <div key={i}>
-              <h3>{linkWithProducts.title[locale]}</h3>
+       {linksWithProducts?.map((linkWithProducts, i) => (
+            <div key={i} className={styles.section}>
+              <h2 className={styles.sectionTitle}>{linkWithProducts.title[locale]}</h2>
 
               <div><Catalog products={linkWithProducts.products}/></div>
             </div>

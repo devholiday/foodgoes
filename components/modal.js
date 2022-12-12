@@ -1,14 +1,14 @@
 import styles from '../styles/Modal.module.css'
 import Button from './button';
+import CloseSVG from '../public/icons/close'
 
 export default function Modal(props) {
     const {activator, open, title, onClose, children, primaryAction, secondaryActions} = props;
 
     return (
         <>
-            <div>
-                {activator}
-            </div>
+            {activator && <div>{activator}</div>}
+            
             { open && (
                 <>
                     <div className={styles.overlay} onClick={onClose}></div>
@@ -17,7 +17,7 @@ export default function Modal(props) {
                             {title && (
                                 <div className={styles.header}>
                                     <div><h2>{title}</h2></div>
-                                    <Button onClick={onClose}>X</Button>
+                                    <Button plain onClick={onClose}><CloseSVG /></Button>
                                 </div>
                             )}
                             {children && (

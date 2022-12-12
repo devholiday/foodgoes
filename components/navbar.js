@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect, useRef} from 'react'
 
 import { useRouter } from 'next/router';
 import Link from 'next/link'
@@ -12,16 +12,35 @@ import Button from './button'
 import Login from './login/login'
 
 import {firebaseAuth} from '../utils/init-firebase';
+import AccountSVG from '../public/icons/account'
+import CartSVG from '../public/icons/cart'
+import GlobeSVG from '../public/icons/globe'
+import LocalesList from './locales-list';
 
 export default function Navbar({isAuth}) {
   const [active, setActive] = useState(false);
+  const [activeLocales, setActiveLocales] = useState(false);
   const [accountMenu, setAccountMenu] = useState(false);
+
+  const btnRef = useRef();
 
   const router = useRouter();
   const { translate } = useTranslation();
 
   const handleChange = useCallback(() => setActive(!active), [active]);
-  const activator = <Button onClick={handleChange}>{translate('login')}</Button>;
+  const handleChangeLocales = useCallback(() => setActiveLocales(!activeLocales), [activeLocales]);
+
+  useEffect(() => {
+    const closeDropDown = e => {
+      if (!e.path.includes(btnRef.current)) {
+        setAccountMenu(false);
+      }
+    };
+
+    document.body.addEventListener('click', closeDropDown);
+
+    return () => document.body.removeEventListener('click', closeDropDown);
+  }, []);
 
   const queue = [];
   const handleKeyUpSearch = event => {
@@ -61,8 +80,6 @@ export default function Navbar({isAuth}) {
     }
   };
 
-  const goToLocale = locale => router.push(router.asPath, router.asPath, { locale });
-
   const logout = () => {
       signOut(firebaseAuth).then(() => {
           // Sign-out successful.
@@ -72,55 +89,66 @@ export default function Navbar({isAuth}) {
   };
 
   return (
-    <div className={styles.header}>
-       <div>
-          <Link className={styles.logo} href="/">FoodGoes</Link>
-        </div>
+    <>
+      <Modal
+          open={activeLocales}
+          onClose={handleChangeLocales}
+          title={translate('modalLocalesTitle')}
+      >
+          <LocalesList onClose={handleChangeLocales} />
+      </Modal>
+      
+      <Modal
+          open={active}
+          onClose={handleChange}
+          title={translate('loginTitle')}
+      >
+          <Login onClose={handleChange} />
+      </Modal>
 
-        <div className={styles.search}>
-          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
-        </div>
-
-        <div className={styles.buttons}>
-          <div className={styles.langs}>
-            <Button onClick={() => goToLocale('en')}>En</Button>
-            <Button onClick={() => goToLocale('he')}>He</Button>
-            <Button onClick={() => goToLocale('ru')}>Ru</Button>
+      <div className={styles.header}>
+        <div>
+            <Link className={styles.logo} href="/">FoodGoes</Link>
           </div>
 
-          {isAuth && (
-            <div className={styles.account}>
-              <div onClick={() => setAccountMenu(!accountMenu)}>{translate('menuAccount')}</div>
-              {accountMenu && (
-                <div className={styles.accountMenu}>
-                  <ul>
-                    <li><Link href={'/account/orders'}>{translate('menuOrders')}</Link></li>
-                    <li><Link href={'/account/billing'}>{translate('menuBilling')}</Link></li>
-                    <li><Button onClick={() => logout()}>{translate('logout')}</Button></li>
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
+          <div className={styles.search}>
+            <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
+          </div>
 
-          <div>
+          <div className={styles.buttons}>
             <div className={styles.cart}>
-              <Link className={styles.cartButton} href="/cart">{translate('cart')}</Link>
+              <Link className={styles.cartButton} href="/cart">
+                <Button><CartSVG /> {translate('cart')}</Button>
+              </Link>
             </div>
 
-            <div className={styles.auth}>
-              {isAuth === false && <Modal
-                  activator={activator}
-                  open={active}
-                  onClose={handleChange}
-                  title={translate('loginTitle')}
-              >
-                  <Login onClose={handleChange} />
-              </Modal>
-              }
+            <div className={styles.globe}>
+              <Button plain onClick={handleChangeLocales}><GlobeSVG /></Button>
+            </div>
+
+            {isAuth && (
+              <div className={styles.account}>
+                <div ref={btnRef}>
+                  <Button plain onClick={() => setAccountMenu(prev => !prev)}><AccountSVG /></Button>
+                </div>
+                {accountMenu && (
+                  <div className={styles.accountMenu}>
+                    <ul>
+                      <li><Link href={'/account/orders'}><Button plain fullWidth>{translate('menuOrders')}</Button></Link></li>
+                      <li><Button plain fullWidth onClick={() => logout()}>{translate('logout')}</Button></li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div>
+              <div className={styles.auth}>
+                {isAuth === false && <Button onClick={handleChange}>{translate('login')}</Button>}
+              </div>
             </div>
           </div>
-        </div>
-    </div>
+      </div>
+    </>
   )
 }

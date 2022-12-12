@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   top: 0;
-  z-index: 1;
+  z-index: 500;
 }
 
 .modal {
@@ -14,7 +14,7 @@
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 501;
   max-width: 500px;
   margin: 100px auto;
 }
@@ -28,6 +28,12 @@
   position: relative;
   border-radius: 32px;
   padding: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header h2 {

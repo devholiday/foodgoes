@@ -14,6 +14,8 @@ import { useTranslation } from '../hooks/useTranslation';
 import {firebaseAuth, firebaseDB} from '../utils/init-firebase';
 import { collection, query, where, getDocs, doc, deleteDoc, addDoc, serverTimestamp} from "firebase/firestore";
 
+import TrashSVG from '../public/icons/trash'
+
 export default function Cart() {
   const [products, setProducts] = useState([]);
   const [totals, setTotals] = useState(0);
@@ -112,15 +114,17 @@ export default function Cart() {
       <Head>
         <title>FoodGoes - Cart</title>
       </Head>
-      <div className='breadcrumbs'>
-        <Link href="/">{translate('btnBackToCatalog')}</Link>
-      </div>
-      <div className='infoBlock'>
-        <div>
-          <h1 className='heading'>{translate('cartTitlePage')}</h1>
+      <div className='topBar'>
+        <div className='breadcrumbs'>
+          <Link href="/">{translate('btnBackToCatalog')}</Link>
         </div>
-        <div>
-          <Button onClick={() => clearCart()}>{translate('btnClearCart')}</Button>
+        <div className='infoBlock'>
+          <div>
+            <h1 className='heading'>{translate('cartTitlePage')}</h1>
+          </div>
+          <div className={styles.btnClearCart}>
+            <Button onClick={() => clearCart()}><TrashSVG />{translate('btnClearCart')}</Button>
+          </div>
         </div>
       </div>
       <div className={styles.container}>

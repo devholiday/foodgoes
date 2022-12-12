@@ -27,5 +27,7 @@
   "menuAccount": "Аккаунт",
   "menuOrders": "Заказы",
   "menuBilling": "Платежи",
-  "ordersTitlePage": "Заказы"
+  "ordersTitlePage": "Заказы",
+  "modalLocalesTitle": "Выберите язык",
+  "breadcrumbsHome": "Главная"
 }

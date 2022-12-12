@@ -1,0 +1,30 @@
+.button {
+    cursor: pointer;
+    padding: 0 12px 0 12px;
+    border-radius: 16px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    flex-direction: revert;
+    align-items: center;
+    justify-content: center;
+    background-color: #efeeed;
+    border: 0;
+}
+
+.button:hover {
+    background-color: #e6e5e3;
+}
+
+.button:active {
+    background-color: #dbdad9;
+}
+
+.buttonPlain {
+    background: transparent;
+    border: 0;
+}
+
+.buttonFullWidth {
+    width: 100%;
+}

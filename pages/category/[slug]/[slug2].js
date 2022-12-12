@@ -1,14 +1,12 @@
+import {useRouter} from 'next/router'
+
 import NestedLayoutCategory from '../../../components/nested-layout-category'
 import Catalog from '../../../components/catalog'
 
-import {useRouter} from 'next/router'
-
-const Category = ({products, currentLinks}) => {
-  const { locale } = useRouter();
+const Category = ({products}) => {
 
   return (
     <>
-      <h2>{currentLinks.nestedLink.title[locale]}</h2>
       <Catalog products={products} />
     </>
   );

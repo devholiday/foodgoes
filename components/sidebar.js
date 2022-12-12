@@ -1,76 +1,68 @@
 import Link from 'next/link'
 import styles from '../styles/Sidebar.module.css'
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {useRouter} from 'next/router'
 
 import { useTranslation } from '../hooks/useTranslation';
 
-export default function Sidebar({categories, slug, slug2}) {
-    const [links, setLinks] = useState([]);
-    const [categoryId, setCategoryId] = useState();
-    const [currentLink, setCurrentLink] = useState();
+export default function Sidebar({categories, slug}) {
+    const [link, setLink] = useState();
     
     const { locale } = useRouter();
     const { translate } = useTranslation();
 
-    const showLinks = categoryId => {
-        setCategoryId(categoryId);
-
+    const toggleLinks = categoryId => {
         const category = categories.find(c => c.id === categoryId);
-        setLinks(category.links ?? []);
-    };
+        const links = category.links ?? [];
 
-    useEffect(() => {
-        let _l;
-        categories.forEach(c => {
-            if (c.links) {
-                c.links.forEach((l) => {
-                    if (l.slug === slug) {
-                        _l = l;
-                    }
-                });
-            }
-        });
-        setCurrentLink(_l);
-    }, []);
+        setLink(prev => prev && prev.id === categoryId ? null : {id: categoryId, links});
+    };
 
     const catalog = categories.map((c, i) => (
         <li key={i}>
-            <div onClick={() => showLinks(c.id)}>{c.title[locale]}</div>
-            {categoryId === c.id && (
-                <div className="links">
-                {links.length > 0 && (
-                    <ul>
-                        {links.map((l, j) => (
-                            <Link key={j} href={`/category/${l.slug}`}>{l.title[locale]}</Link>
-                        ))}
-                    </ul>
-                )}
-            </div>
+            <div onClick={() => toggleLinks(c.id)} className={slug && 'hidden'}>{c.title[locale]}</div>
+            {link && link.id === c.id && (
+                <>
+                    {link.links.length > 0 && (
+                        <ul className={styles.sublinks}>
+                            {link.links.map((l, j) => <li key={j}><Link href={`/category/${l.slug}`}><span>{l.title[locale]}</span></Link></li>)}
+                        </ul>
+                    )}
+                </>
             )}
         </li>
     ));
     
     return (
         <div className={styles.sidebar}>
-            {!currentLink && (
+            {!slug && (
                 <>
                     <div><h2>{translate('catalog')}</h2></div>
-                    <ul>{catalog}</ul>
+                    <ul className={styles.links}>{catalog}</ul>
                 </>
             )}
-            
-            {currentLink && (
+
+            {slug && (
                 <>
-                    <div><h2>{currentLink.title[locale]}</h2></div>
-                    <ul>{currentLink.links.map((c, i) => (
-                        <li key={i}>
-                            <div>
-                                <Link href={`/category/${slug}/${c.slug}`}>{c.title[locale]}</Link>
-                            </div>
-                        </li>
-                    ))}</ul>
+                    {categories.map(c => (
+                        <ul className={styles.links1} key={c.id}>
+                            {
+                                c.links?.map((l1, i1) => (
+                                    <li key={i1}>
+                                        <Link href={`/category/${l1.slug}`} className={l1.slug === slug ? ' ' +styles.currentLink : ''}>{l1.title[locale]}</Link>
+                                        <ul className={styles.links2}>
+                                            {l1.slug === slug && 
+                                                l1.links?.map((l2, i2) => (
+                                                    <li key={i2}><Link href={`/category/${l1.slug}/${l2.slug}`}>{l2.title[locale]}</Link></li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    ))}
                 </>
             )}
         </div>

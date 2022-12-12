@@ -9,7 +9,8 @@ body {
   margin: 0;
   padding: 0;
   
-  color: #21201f;;
+  color: #21201f;
+  font-size: 16px;
 }
 
 a {
@@ -21,12 +22,38 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
 .heading {
   font-size: 48px;
   font-weight: 700;
 }
 
+.topBar {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0 32px 0;
+  width: 100%;
+  justify-content: flex-start;
+}
 .infoBlock {
   display: flex;
   justify-content: space-between;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #9e9b98;
+}
+.breadcrumbs div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #9e9b98;
 }

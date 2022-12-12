@@ -3,7 +3,7 @@
   "logout": "Logout",
   "login": "Log in",
   "search": "Search",
-  "buy": "Buy",
+  "buy": "Add to basket",
   "cartTitlePage": "Cart",
   "cartTitle": "Your cart is empty",
   "cartTextEmpty": "The products you order will appear here.",
@@ -27,5 +27,7 @@
   "menuAccount": "Account",
   "menuOrders": "Orders",
   "menuBilling": "Billing",
-  "ordersTitlePage": "Orders"
+  "ordersTitlePage": "Orders",
+  "modalLocalesTitle": "Choose language",
+  "breadcrumbsHome": "Home"
 }

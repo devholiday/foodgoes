@@ -1,8 +1,18 @@
 .wrapper {
-  grid-template: "menu main" auto/minmax(220px,auto) minmax(600px,auto);
+  grid-template: "menu main" auto/minmax(270px,auto) minmax(690px,auto);
   display: grid;
 }
 
 .main {
   grid-area: main;
+}
+
+.section:not(:first-child) {
+  margin-top: 40px;
+}
+
+.section h2.sectionTitle {
+  font-weight: 700;
+  font-size: 28px;
+  padding: 19px 0 22px;
 }
