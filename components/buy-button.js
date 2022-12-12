@@ -6,7 +6,8 @@ import {updateDoc, addDoc, collection, doc, serverTimestamp} from "firebase/fire
 
 import styles from '../styles/BuyButton.module.css'
 
-import Button from './button'
+import MinusSVG from '../public/icons/minus'
+import PlusSVG from '../public/icons/plus'
 
 import CartContext from '../context/cart-context'
 import { useTranslation } from '../hooks/useTranslation';
@@ -109,16 +110,16 @@ export default function BuyButton({disabled, productId}) {
     return (
         <div className={styles.wrapper}>
             {inCart && (
-                <div>
-                    <Button onClick={() => counter(productId)}>-</Button>
+                <div className={styles.container}>
+                    <button onClick={() => counter(productId)}><MinusSVG /></button>
                     <span>{inCart.quantity}</span>
-                    <Button onClick={() => counter(productId, 'inc')}>+</Button>
+                    <button onClick={() => counter(productId, 'inc')}><PlusSVG /></button>
                 </div>
             )}
             {inCart === null && (
                 (
-                    <div className={styles.buyBtn}>
-                        <div><Button onClick={() => buy(productId)} disabled={disabled}>{translate('buy')}</Button></div>
+                    <div className={styles.container}>
+                        <button onClick={() => buy(productId)} disabled={disabled}>{translate('buy')}</button>
                     </div>
                 )
             )}

@@ -5,10 +5,15 @@
     background-color: #f8f7f5;
     position: relative;
     overflow: hidden;
+    height: 100%;
 }
 
 .wrapper {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
 }
 .wrapper:hover {
     background-color: #f1f0ed;

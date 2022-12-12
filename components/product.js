@@ -30,11 +30,7 @@ export default function Product({product: p, disabledBuy}) {
                     
                     <h3 className={styles.title}>{p.title[locale]}</h3>
                 </div>
-                {!disabledBuy && (
-                    <div>
-                        <BuyButton productId={p.id} disabled={!p.quantity} />
-                    </div>
-                )}
+                {!disabledBuy && <BuyButton productId={p.id} disabled={!p.quantity} />}
             </div>
         </div>
     );
