@@ -29,5 +29,19 @@
   "menuBilling": "Billing",
   "ordersTitlePage": "Orders",
   "modalLocalesTitle": "Choose language",
-  "breadcrumbsHome": "Home"
+  "breadcrumbsHome": "Home",
+  "brand": "Brand",
+  "compound": "Compound",
+  "btnInCatalog": "Catalog",
+  "metaTitleCart": "Cart in FoodGoes",
+  "cancelled": "Cancelled",
+  "pending": "Pending",
+  "completed": "Completed",
+  "orderId": "ID order",
+  "date": "Date",
+  "statusShipping": "Status shopping",
+  "statusPayment": "Status payment",
+  "productsTotal": "Products",
+  "shippingTotal": "Shipping",
+  "discountTotal": "Discount"
 }

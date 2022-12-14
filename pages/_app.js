@@ -5,7 +5,7 @@ import '../styles/globals.css'
 import { useEffect, useState} from 'react';
 import localFont from '@next/font/local';
 
-import {firebaseAuth, firebaseDB, firebaseAnalytics} from '../utils/init-firebase';
+import {firebaseAuth, firebaseDB} from '../utils/init-firebase';
 
 import { onAuthStateChanged } from "firebase/auth";
 import { query, collection, where, getDocs } from "firebase/firestore";
@@ -17,7 +17,7 @@ const roboto = localFont({
     {
       path: '../fonts/roboto/Roboto-Regular.ttf',
       weight: '400',
-      style: 'normal'
+      style: 'normal',
     },
     {
       path: '../fonts/roboto/Roboto-Medium.ttf',
@@ -29,7 +29,8 @@ const roboto = localFont({
       weight: '700',
       style: 'normal'
     }
-  ]
+  ],
+  variable: '--roboto-font',
 });
 
 function MyApp({ Component, pageProps }) {

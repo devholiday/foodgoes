@@ -1,6 +1,9 @@
 .product {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
 }
 
 .link {
@@ -65,10 +68,29 @@
 }
 
 .priceBlock {
-    margin-bottom: 4px;
+    margin-top: 4px;
 }
 
 .quantityBlock {
     display: flex;
     flex-direction: row;
+}
+
+.quantity {
+    box-shadow: none;
+    border-radius: 10px;
+    background-color: rgba(101,92,78,.1);
+    min-height: 32px;
+    height: 32px;
+    width: 100px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.quantity span {
+    cursor: default;
+    font-size: 13px;
+    font-weight: 700;
 }

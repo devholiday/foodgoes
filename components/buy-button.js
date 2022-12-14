@@ -9,10 +9,15 @@ import styles from '../styles/BuyButton.module.css'
 import MinusSVG from '../public/icons/minus'
 import PlusSVG from '../public/icons/plus'
 
+import MinusSmallSVG from '../public/icons/minus-small'
+import PlusSmallSVG from '../public/icons/plus-small'
+
 import CartContext from '../context/cart-context'
 import { useTranslation } from '../hooks/useTranslation';
 
-export default function BuyButton({disabled, productId}) {
+import Button from './button'
+
+export default function BuyButton({disabled, productId, primary=false, secondary=false, size="medium"}) {
     const cartFromContext = useContext(CartContext);
     const { translate } = useTranslation();
 
@@ -76,16 +81,14 @@ export default function BuyButton({disabled, productId}) {
                 }
 
                 if (quantity < 1) {
-                    const products = cart.products.filter(p => p.productId !== productId);
-                    cart.products = products;
+                    cart.products = cart.products.filter(p => p.productId !== productId);
                 } else {
-                    const products = cart.products.map(p => {
+                    cart.products = cart.products.map(p => {
                         return {
                             ...p,
                             quantity: p.productId === productId ? quantity: p.quantity
                         };
-                    });
-                    cart.products = products;   
+                    }); 
                 }
 
                 cart.updatedAt = serverTimestamp();
@@ -110,16 +113,20 @@ export default function BuyButton({disabled, productId}) {
     return (
         <div className={styles.wrapper}>
             {inCart && (
-                <div className={styles.container}>
-                    <button onClick={() => counter(productId)}><MinusSVG /></button>
-                    <span>{inCart.quantity}</span>
-                    <button onClick={() => counter(productId, 'inc')}><PlusSVG /></button>
+                <div className={styles.container + (size ? ' ' + styles[size] : '')}>
+                    <Button onClick={() => counter(productId)} secondary>
+                        {size !== 'small' ? <MinusSVG /> : <MinusSmallSVG />}</Button>
+                    <span className={styles.quantity}>{inCart.quantity}</span>
+                    <Button onClick={() => counter(productId, 'inc')} secondary>
+                        {size !== 'small' ? <PlusSVG /> : <PlusSmallSVG />}
+                    </Button>
                 </div>
             )}
             {inCart === null && (
                 (
                     <div className={styles.container}>
-                        <button onClick={() => buy(productId)} disabled={disabled}>{translate('buy')}</button>
+                        <Button onClick={() => buy(productId)} size={size}
+                        disabled={disabled} secondary={secondary} primary={primary} fullWidth><span>{translate('buy')}</span></Button>
                     </div>
                 )
             )}

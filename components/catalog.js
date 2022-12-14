@@ -1,11 +1,15 @@
 import styles from '../styles/Catalog.module.css'
 
-import Product from './product';
+import ProductViewCard from './product-view-card';
+import ProductViewList from './product-view-list';
 
-export default function Catalog({view='card', products, disabledBuy=false}) {
+export default function Catalog({products, disabledBuy=false, view='card'}) {
     return (
-        <div className={styles.catalog + ' ' + (view==='list' ? styles.list : styles.card) }>
-            {products.map(p => <div key={p.id}><Product product={p} disabledBuy={disabledBuy}/></div>)}
+        <div className={styles.catalog}>
+            {products.map(p => <div key={p.id}>
+                {view === 'card' && <ProductViewCard product={p} disabledBuy={disabledBuy}/>}
+                {view === 'list' && <ProductViewList product={p} disabledBuy={disabledBuy}/>}
+                </div>)}
         </div>
     );
 }

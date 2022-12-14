@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 
 import {firebaseAuth} from '../../utils/init-firebase';
 import {RecaptchaVerifier, signInWithPhoneNumber} from "firebase/auth";
@@ -6,8 +6,11 @@ import {useForm} from "react-hook-form";
 
 import { useTranslation } from '../../hooks/useTranslation';
 
+import Button from "../button";
+
 export default function LoginPhone({setStep}) {
     const { translate } = useTranslation();
+    const inputBoxRef = useRef();
 
     firebaseAuth.languageCode = 'en';
 
@@ -15,6 +18,10 @@ export default function LoginPhone({setStep}) {
 
     useEffect(() => {
         window.applicationVerifier = new RecaptchaVerifier('recaptcha-container', {'size': 'invisible'}, firebaseAuth);
+    }, []);
+
+    useEffect(() => {
+        inputBoxRef.current.querySelector('input').focus();
     }, []);
 
     const normalizePhoneNumber = number => {
@@ -40,23 +47,22 @@ export default function LoginPhone({setStep}) {
                 }).catch((error) => {
                     console.log(error)
             });
-
         } catch(e) {
             console.log(e)
         }
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="form">
             <div className="form-block">
                 <label>{translate('phone')}</label>
-                <div className="input-box">
+                <div className="input-box input-box-pefix" ref={inputBoxRef}>
                     <span className="prefix">+972</span>
                     <input type='tel' {...register("phoneNumber", { required: true })} />
                 </div>
             </div>
             <div id="recaptcha-container"></div>
-            <input  type="submit" value={translate('next')} />
+            <Button fullWidth submit>{translate('next')}</Button>
         </form>
     )
 }

@@ -1,10 +1,10 @@
-import styles from '../styles/ProductCart.module.css'
+import styles from '../styles/ProductViewList.module.css'
 import Link from 'next/link'
 import BuyButton from './buy-button';
 
 import {useRouter} from 'next/router'
 
-export default function ProductCart({product}) {
+export default function ProductViewList({product, disabledBuy=false}) {
     const { locale } = useRouter();
 
     return (
@@ -30,7 +30,10 @@ export default function ProductCart({product}) {
                 </div>
             </div>
             <div className={styles.quantityBlock}>
-                <BuyButton productId={product.id} disabled={!product.quantity} />
+                {!disabledBuy && <BuyButton productId={product.id} disabled={!product.quantity} size='small' />}
+                {disabledBuy && (
+                    <div className={styles.quantity}><span>{product.quantity}</span></div>
+                )}
             </div>
         </div>
     );

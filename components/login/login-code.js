@@ -1,3 +1,5 @@
+import {useEffect, useRef} from "react";
+
 import {firebaseDB} from '../../utils/init-firebase';
 
 import {doc, setDoc} from "firebase/firestore";
@@ -6,9 +8,19 @@ import {useForm} from "react-hook-form";
 
 import { useTranslation } from '../../hooks/useTranslation';
 
+import Button from "../button";
+
 export default function LoginCode({onClose}) {
     const { translate } = useTranslation();
     const { register, handleSubmit } = useForm();
+
+    const inputBoxRef = useRef();
+
+    useEffect(() => {
+        focusInput();
+    }, []);
+
+    const focusInput = () => inputBoxRef.current.querySelector('input').focus();
 
     const onSubmit = async data => {
         try {
@@ -24,8 +36,7 @@ export default function LoginCode({onClose}) {
 
                 onClose();
             }).catch((error) => {
-                // User couldn't sign in (bad verification code?)
-                throw error;
+                focusInput();
             });
         } catch (e) {
             console.log(e);
@@ -33,11 +44,14 @@ export default function LoginCode({onClose}) {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="form">
             <div className="form-block">
-                <input type='input' {...register("code", { required: true })} placeholder={translate('code')} />
+            <label>{translate('code')}</label>
+                <div className="input-box" ref={inputBoxRef}>
+                    <input type='input' {...register("code", { required: true })} />
+                </div>
             </div>
-            <input className="btn-secondary" type="submit" value={translate('login')} />
+            <Button fullWidth submit primary>{translate('login')}</Button>
         </form>
     );
 }

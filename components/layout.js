@@ -15,7 +15,7 @@ export default function Layout({ children, isAuth }) {
 
       <div className={styles.container}>
         <Navbar isAuth={isAuth} />
-        <div>{children}</div>
+        {children}
         <Footer />
       </div>
     </>

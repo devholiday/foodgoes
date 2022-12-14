@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Search.module.css'
 
 import Sidebar from '../components/sidebar'
 import Catalog from '../components/catalog';
@@ -13,10 +13,10 @@ export default function Search({categories, search}) {
       <Sidebar categories={categories} />
 
       <div className={styles.main}>
-        {search && !search.count && <p>{translate('emptySearch').replace('[searchPhrase]', search.phrase)}</p>}
-        {search && (
+        {search && !search.count && <h1 className={styles.headingSearch}>{translate('emptySearch').replace('[searchPhrase]', search.phrase)}</h1>}
+        {search && search.count > 0 && (
           <>
-            <p>{translate('notEmptySearch').replace('[searchPhrase]', search.phrase).replace('[searchCount]', search.count)}</p>
+            <h1 className={styles.headingSearch}>{translate('notEmptySearch').replace('[searchPhrase]', search.phrase).replace('[searchCount]', search.count)}</h1>
             <Catalog products={search.products ?? []} />
           </>
         )}
@@ -43,7 +43,7 @@ export async function getServerSideProps(context) {
   if (!text) {
     return {
       redirect: {
-        destination: '/',
+        destination: '/'+locale,
         permanent: false,
       },
     }

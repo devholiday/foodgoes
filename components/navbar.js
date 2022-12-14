@@ -7,6 +7,8 @@ import styles from '../styles/Navbar.module.css'
 
 import { useTranslation } from '../hooks/useTranslation';
 
+import { signOut } from "firebase/auth";
+
 import Modal from './modal'
 import Button from './button'
 import Login from './login/login'

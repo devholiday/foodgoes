@@ -27,7 +27,8 @@
 
 .search input {
   display: block;
-  width: 320px;
+  max-width: 320px;
+  min-width: 320px;
   border: 1px solid transparent;
   padding: 5px 13px;
   height: 48px;
@@ -79,4 +80,20 @@
 
 .cartButton svg {
   margin-right: 9px;
+}
+
+
+
+@media only screen and (max-width: 690px) {
+  /* .search input {
+    min-width: 100px;
+  } */
+  .buttons {
+    display: none;
+  }
+}
+@media only screen and (max-width: 490px) {
+  .search input {
+    display: none;
+  }
 }
