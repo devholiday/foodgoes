@@ -6,9 +6,3 @@
 .main {
   grid-area: main;
 }
-
-@media only screen and (max-width: 980px) {
-  .wrapper {
-    grid-template: "main";
-  }
-}

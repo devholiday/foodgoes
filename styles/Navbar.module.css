@@ -81,19 +81,3 @@
 .cartButton svg {
   margin-right: 9px;
 }
-
-
-
-@media only screen and (max-width: 690px) {
-  /* .search input {
-    min-width: 100px;
-  } */
-  .buttons {
-    display: none;
-  }
-}
-@media only screen and (max-width: 490px) {
-  .search input {
-    display: none;
-  }
-}

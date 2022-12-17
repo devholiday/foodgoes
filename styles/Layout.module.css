@@ -5,9 +5,3 @@
   max-width: 960px;
   display: block;
 }
-
-@media only screen and (max-width: 980px) {
-  .container {
-    min-width: 300px;
-  }
-}
