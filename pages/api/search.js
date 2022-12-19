@@ -21,6 +21,8 @@ export default async function handler(req, res) {
       throw 'Maximum 10 symbols';
     }
 
+    q = q.toLowerCase();
+
     const products = [];
     const snapshot = await db.collection('products')
     .where('search.'+locale, 'array-contains', q)
