@@ -15,15 +15,19 @@ export default function Sidebar({categories, slug}) {
     const { translate } = useTranslation();
 
     const toggleLinks = categoryId => {
+        if (!categoryId) {
+            return setLink(null);
+        }
+
         const category = categories.find(c => c.id === categoryId);
-        const links = category.links ?? [];
+        const links = category?.links ?? [];
 
         setLink(prev => prev && prev.id === categoryId ? null : {id: categoryId, links});
     };
 
     const catalog = categories.map((c, i) => (
         <li key={i}>
-            <div onClick={() => toggleLinks(c.id)} className={slug && 'hidden'}>{c.title[locale]}</div>
+            <div onClick={() => toggleLinks(c.id)}>{c.title[locale]}</div>
             {link && link.id === c.id && (
                 <>
                     {link.links.length > 0 && (
@@ -35,22 +39,11 @@ export default function Sidebar({categories, slug}) {
             )}
         </li>
     ));
-    
-    const catalogMob = categories.map((c, i) => (
-        <>
-            {!link &&
-                <li key={i}>
-                    {!link && <div onClick={() => toggleLinks(c.id)} className={slug && 'hidden'}>{c.title[locale]}</div>}
-                </li>
-            }
 
-            {link && link.id === c.id && (    
-                <>
-                    <li key={c.id}><div onClick={() => toggleLinks(c.id)}><ChevronLeftSVG /></div></li>
-                    {link.links.map((l, j) => <li key={j}><Link href={`/category/${l.slug}`}><span>{l.title[locale]}</span></Link></li>)}
-                </>
-            )}
-        </>
+    const catalogMob = categories.map((c, i) => (
+        <li key={i} className={link && styles.hidden}>            
+           {!link && <div onClick={() => toggleLinks(c.id)}>{c.title[locale]}</div>}
+        </li>
     ));
 
     return (
@@ -91,7 +84,14 @@ export default function Sidebar({categories, slug}) {
                 {!slug && (
                     <>
                         <div><h2>{translate('catalog')}</h2></div>
-                        <ul className={styles.links}>{catalogMob}</ul>
+                        <ul className={styles.links}>
+                            {link && <li key={'catalog'} onClick={() => toggleLinks()}><div><ChevronLeftSVG /></div></li>}
+                            {catalogMob}
+                            {link && (
+                                <>{link.links.map((l, j) => <li key={j}><Link href={`/category/${l.slug}`}><span>{l.title[locale]}</span></Link></li>)}</>
+                            )}
+                        </ul>
+                        
                     </>
                 )}
 

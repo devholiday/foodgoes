@@ -153,7 +153,7 @@ export default function Navbar({isAuth}) {
       </div>
       <div className={styles.headerMob}>
         <div className={styles.search + ' ' + styles.searchMob}>
-          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
+          <input type="text" placeholder={translate('search')} onTouchEnd={handleKeyUpSearch} />
         </div>
       </div>
     </>
