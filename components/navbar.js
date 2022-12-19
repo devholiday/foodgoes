@@ -47,10 +47,6 @@ export default function Navbar({isAuth}) {
   const queue = [];
   const handleKeyUpSearch = event => {
     try {
-      if (event.keyCode !== 8 && (event.keyCode < 48 || event.keyCode > 220)) {
-        return;
-      }
-
       queue.forEach(element => clearTimeout(element));
 
       const timeoutId = setTimeout(async () => {
@@ -153,7 +149,7 @@ export default function Navbar({isAuth}) {
       </div>
       <div className={styles.headerMob}>
         <div className={styles.search + ' ' + styles.searchMob}>
-          <input type="text" placeholder={translate('search')} onTouchEnd={handleKeyUpSearch} />
+          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
         </div>
       </div>
     </>
