@@ -85,3 +85,18 @@
 .totals {
     margin-bottom: 8px;
 }
+
+@media only screen and (max-width: 980px) {
+    .container {
+      grid-template: "wrapper" "products";
+    }
+    .wrapper {
+        margin-left: 0;
+    }
+    .products {
+        margin-top: 15px;
+    }
+    .btnClearCart {
+        margin-top: 10px;
+    }
+  }
