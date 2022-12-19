@@ -1,4 +1,5 @@
 .header {
+  margin: 0 15px;
   display: flex;
   flex-direction: row;
   position: sticky;
@@ -80,4 +81,21 @@
 
 .cartButton svg {
   margin-right: 9px;
+}
+
+.searchMob {
+  display: none;
+}
+
+@media only screen and (max-width: 980px) {
+  .search {
+    display: none;
+  }
+  .searchMob {
+    display: block;
+    margin: 15px;
+  }  
+  .searchMob input {
+    min-width: 100%;
+  }  
 }

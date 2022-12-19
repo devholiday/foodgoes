@@ -31,7 +31,9 @@ const Product = ({product}) => {
       </div>
     
       <div className={styles.container}>
-        <div><img src={product.image} /></div>
+        <div className={styles.imagesContainer}>
+          <div className={styles.mainImage}><img src={product.image} /></div>
+        </div>
 
         <div className={styles.aboutProduct}>
           <div className={styles.priceAndBtnBlock}>

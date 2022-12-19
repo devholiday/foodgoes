@@ -1,8 +1,15 @@
 .wrapper {
-  grid-template: "menu main" auto/minmax(270px,auto) minmax(690px,auto);
+  grid-template: "menu main" auto/minmax(270px,auto) minmax(660px,auto);
   display: grid;
+  margin: 0 15px;
 }
 
 .main {
   grid-area: main;
+}
+
+@media only screen and (max-width: 980px) {
+  .wrapper {
+    grid-template: "menu" "main";
+  }
 }

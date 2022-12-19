@@ -1,6 +1,7 @@
 .order {
     display: grid;
     grid-template: "info products" auto/minmax(400px,auto) minmax(560px,auto);
+    margin: 0 15px;
 }
 .products {
     grid-area: products;
@@ -51,3 +52,13 @@
     font-weight: 500;
     font-size: 18px;
 }
+
+@media only screen and (max-width: 980px) {
+    .order {
+      grid-template: "info" "products";
+    }
+    .products {
+        margin-top: 15px;
+        padding-left: 0;
+    }
+  }

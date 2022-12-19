@@ -41,8 +41,8 @@ button {
   display: flex;
   flex-direction: column;
   padding: 32px 0 32px 0;
-  width: 100%;
   justify-content: flex-start;
+  margin: 0 15px;
 }
 .infoBlock {
   display: flex;

@@ -1,6 +1,7 @@
 .wrapper {
   grid-template: "menu main" auto/minmax(270px,auto) minmax(690px,auto);
   display: grid;
+  margin: 0 15px;
 }
 
 .main {
@@ -14,4 +15,13 @@
   margin-bottom: 24px;
   word-break: break-word;
   font-weight: 700;
+}
+
+@media only screen and (max-width: 980px) {
+  .wrapper {
+    grid-template: "menu" "main";
+  }
+  .main {
+    padding-top: 0;
+  }
 }

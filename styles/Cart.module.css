@@ -1,6 +1,7 @@
 .container {
     display: grid;
-    grid-template: "products wrapper" auto/minmax(560px,auto) minmax(400px,auto);
+    grid-template: "products wrapper" auto/minmax(560px,auto) minmax(370px,auto);
+    margin: 0 15px;
 }
 
 .containerEmpty {

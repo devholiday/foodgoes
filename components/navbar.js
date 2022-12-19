@@ -111,45 +111,50 @@ export default function Navbar({isAuth}) {
       <div className={styles.header}>
         <div>
             <Link className={styles.logo} href="/">FoodGoes</Link>
+        </div>
+
+        <div className={styles.search}>
+          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
+        </div>
+
+        <div className={styles.buttons}>
+          <div className={styles.cart}>
+            <Link className={styles.cartButton} href="/cart">
+              <Button><CartSVG /> {translate('cart')}</Button>
+            </Link>
           </div>
 
-          <div className={styles.search}>
-            <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
+          <div className={styles.globe}>
+            <Button plain onClick={handleChangeLocales}><GlobeSVG /></Button>
           </div>
 
-          <div className={styles.buttons}>
-            <div className={styles.cart}>
-              <Link className={styles.cartButton} href="/cart">
-                <Button><CartSVG /> {translate('cart')}</Button>
-              </Link>
-            </div>
-
-            <div className={styles.globe}>
-              <Button plain onClick={handleChangeLocales}><GlobeSVG /></Button>
-            </div>
-
-            {isAuth && (
-              <div className={styles.account}>
-                <div ref={btnRef}>
-                  <Button plain onClick={() => setAccountMenu(prev => !prev)}><AccountSVG /></Button>
+          {isAuth && (
+            <div className={styles.account}>
+              <div ref={btnRef}>
+                <Button plain onClick={() => setAccountMenu(prev => !prev)}><AccountSVG /></Button>
+              </div>
+              {accountMenu && (
+                <div className={styles.accountMenu}>
+                  <ul>
+                    <li><Link href={'/account/orders'}><Button plain fullWidth>{translate('menuOrders')}</Button></Link></li>
+                    <li><Button plain fullWidth onClick={() => logout()}>{translate('logout')}</Button></li>
+                  </ul>
                 </div>
-                {accountMenu && (
-                  <div className={styles.accountMenu}>
-                    <ul>
-                      <li><Link href={'/account/orders'}><Button plain fullWidth>{translate('menuOrders')}</Button></Link></li>
-                      <li><Button plain fullWidth onClick={() => logout()}>{translate('logout')}</Button></li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+          )}
 
-            <div>
-              <div className={styles.auth}>
-                {isAuth === false && <Button onClick={handleChange}>{translate('login')}</Button>}
-              </div>
+          <div>
+            <div className={styles.auth}>
+              {isAuth === false && <Button onClick={handleChange}>{translate('login')}</Button>}
             </div>
           </div>
+        </div>
+      </div>
+      <div className={styles.headerMob}>
+        <div className={styles.search + ' ' + styles.searchMob}>
+          <input type="text" placeholder={translate('search')} onKeyUp={handleKeyUpSearch} />
+        </div>
       </div>
     </>
   )
