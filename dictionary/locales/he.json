@@ -43,5 +43,6 @@
   "statusPayment": "Status payment",
   "productsTotal": "Products",
   "shippingTotal": "Shipping",
-  "discountTotal": "Discount"
+  "discountTotal": "Discount",
+  "alertDiscountFirstOrder": "Minus [discount] on the first order"
 }

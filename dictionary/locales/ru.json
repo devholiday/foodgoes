@@ -43,5 +43,6 @@
   "statusPayment": "Статус оплаты",
   "productsTotal": "Продуктов",
   "shippingTotal": "Доставка",
-  "discountTotal": "Скидка"
+  "discountTotal": "Скидка",
+  "alertDiscountFirstOrder": "Минус [discount] на первый заказ"
 }
