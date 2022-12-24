@@ -30,7 +30,7 @@ export default function ProductViewList({product, disabledBuy=false}) {
                 </div>
             </div>
             <div className={styles.quantityBlock}>
-                {!disabledBuy && <BuyButton productId={product.id} disabled={!product.quantity} size='small' />}
+                {!disabledBuy && <BuyButton productId={product.id} price={product.discountPrice || product.price} disabled={!product.quantity} size='small' />}
                 {disabledBuy && (
                     <div className={styles.quantity}><span>{product.quantity}</span></div>
                 )}

@@ -1,4 +1,3 @@
-
 import { useContext, useEffect } from "react";
 
 import {firebaseAuth, firebaseDB} from '../utils/init-firebase';
@@ -17,7 +16,7 @@ import { useTranslation } from '../hooks/useTranslation';
 
 import Button from './button'
 
-export default function BuyButton({disabled, productId, primary=false, secondary=false, size="medium"}) {
+export default function BuyButton({disabled, productId, price, primary=false, secondary=false, size="medium"}) {
     const cartFromContext = useContext(CartContext);
     const { translate } = useTranslation();
 
@@ -25,28 +24,35 @@ export default function BuyButton({disabled, productId, primary=false, secondary
         if (!cartFromContext || !cartFromContext.cart) return;
     }, [cartFromContext]);
     
-    const buy = async productId => {
+    const buy = async (productId, price=0) => {
         try {
             const user = firebaseAuth.currentUser;
             
             if (user) {
                 const userId = user.uid;    
     
-                const {cart, createCart, updateProductsCart} = cartFromContext;
+                const {cart, createCart, updateProductsCart, updateTotalCart} = cartFromContext;
                 if (cart) {
                     const product = cart.products.find(p => p.productId === productId);
                     if (!product) {
+                        const total = cart.total+price;
                         const products = cart.products.concat({productId, quantity: 1});
-                        await updateDoc(doc(firebaseDB, "cart", cart.id), {products, updatedAt: serverTimestamp()});
+
+                        await updateDoc(doc(firebaseDB, "cart", cart.id), {products, total, updatedAt: serverTimestamp()});
                         updateProductsCart(products);
+                        updateTotalCart(total);
                     }
                 } else {
-                    const docRef = await addDoc(collection(firebaseDB, "cart"), {userId, products: [{productId, quantity: 1}], createdAt: serverTimestamp()});
+                    const total = price;
+
+                    const docRef = await addDoc(collection(firebaseDB, "cart"), 
+                    {userId, products: [{productId, quantity: 1}], total, createdAt: serverTimestamp()});
                     if (docRef.id) {
                         createCart({
                             id: docRef.id,
                             userId,
-                            products: [{productId, quantity: 1}]
+                            products: [{productId, quantity: 1}],
+                            total
                         });
                     }
                 }
@@ -59,11 +65,11 @@ export default function BuyButton({disabled, productId, primary=false, secondary
         }
     };
 
-    const counter = async (productId, action=null) => {
+    const counter = async (productId, price, action=null) => {
         try {
             const user = firebaseAuth.currentUser;
             if (user) {
-                const {cart, updateProductsCart} = cartFromContext;
+                const {cart, updateProductsCart, updateTotalCart} = cartFromContext;
                 if (!cart) {
                     throw 'Invalid Cart';
                 }
@@ -88,12 +94,14 @@ export default function BuyButton({disabled, productId, primary=false, secondary
                             ...p,
                             quantity: p.productId === productId ? quantity: p.quantity
                         };
-                    }); 
+                    });
                 }
 
+                cart.total = cart.total + (action ? price : -price);
                 cart.updatedAt = serverTimestamp();
                 await updateDoc(doc(firebaseDB, "cart", cart.id), cart);
                 updateProductsCart(cart.products);
+                updateTotalCart(cart.total);
             } else {
                 console.log('Чтобы добавить товар в корзину авторизуйтесь')
             }
@@ -114,10 +122,10 @@ export default function BuyButton({disabled, productId, primary=false, secondary
         <div className={styles.wrapper}>
             {inCart && (
                 <div className={styles.container + (size ? ' ' + styles[size] : '')}>
-                    <Button onClick={() => counter(productId)} secondary>
+                    <Button onClick={() => counter(productId, price)} secondary>
                         {size !== 'small' ? <MinusSVG /> : <MinusSmallSVG />}</Button>
                     <span className={styles.quantity}>{inCart.quantity}</span>
-                    <Button onClick={() => counter(productId, 'inc')} secondary>
+                    <Button onClick={() => counter(productId, price, 'inc')} secondary>
                         {size !== 'small' ? <PlusSVG /> : <PlusSmallSVG />}
                     </Button>
                 </div>
@@ -125,7 +133,7 @@ export default function BuyButton({disabled, productId, primary=false, secondary
             {inCart === null && (
                 (
                     <div className={styles.container}>
-                        <Button onClick={() => buy(productId)} size={size}
+                        <Button onClick={() => buy(productId, price)} size={size}
                         disabled={disabled} secondary={secondary} primary={primary} fullWidth><span>{translate('buy')}</span></Button>
                     </div>
                 )

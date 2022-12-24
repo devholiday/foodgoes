@@ -71,6 +71,12 @@ function MyApp({ Component, pageProps }) {
       products
     }));
   };
+  const updateTotalCart = total => {
+    setCart(prevState => ({
+      ...prevState,
+      total
+    }));
+  }
   const deleteCart = () => {
     setCart(null);
   };
@@ -79,7 +85,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <main className={roboto.className}>
-      <CartContext.Provider value={{cart, createCart, updateProductsCart, deleteCart}}>
+      <CartContext.Provider value={{cart, createCart, updateProductsCart, deleteCart, updateTotalCart}}>
         <Layout isAuth={isAuth}>
             {getLayout(<Component {...pageProps} />)}
         </Layout>

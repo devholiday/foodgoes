@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect, useRef} from 'react'
+import {useState, useCallback, useEffect, useRef, useContext} from 'react'
 
 import { useRouter } from 'next/router';
 import Link from 'next/link'
@@ -19,6 +19,8 @@ import CartSVG from '../public/icons/cart'
 import GlobeSVG from '../public/icons/globe'
 import LocalesList from './locales-list';
 
+import CartContext from '../context/cart-context'
+
 export default function Navbar({isAuth}) {
   const [active, setActive] = useState(false);
   const [activeLocales, setActiveLocales] = useState(false);
@@ -28,6 +30,8 @@ export default function Navbar({isAuth}) {
 
   const router = useRouter();
   const { translate } = useTranslation();
+
+  const {cart} = useContext(CartContext);
 
   const handleChange = useCallback(() => setActive(!active), [active]);
   const handleChangeLocales = useCallback(() => setActiveLocales(!activeLocales), [activeLocales]);
@@ -116,7 +120,7 @@ export default function Navbar({isAuth}) {
         <div className={styles.buttons}>
           <div className={styles.cart}>
             <Link className={styles.cartButton} href="/cart">
-              <Button><CartSVG /> {translate('cart')}</Button>
+              <Button primary={!!cart?.total}><CartSVG />{cart?.total ? '\u20AA' + cart.total : translate('cart')}</Button>
             </Link>
           </div>
 
