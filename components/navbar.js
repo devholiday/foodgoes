@@ -38,7 +38,7 @@ export default function Navbar({isAuth}) {
 
   useEffect(() => {
     const closeDropDown = e => {
-      if (!e.path.includes(btnRef.current)) {
+      if (!e.composedPath().includes(btnRef.current)) {
         setAccountMenu(false);
       }
     };
